@@ -56,7 +56,14 @@ var dataChannelSettings = {
 
 var pcSettings = [
   {
-    iceServers: [{url:'stun:stun.l.google.com:19302'}]
+    //iceServers: [{url:'stun:stun.l.google.com:19302'}]
+    iceServers: [
+      //{url:'stun:ocn.cloudns.org:3478'},
+      {
+        urls : 'turn:ocn.cloudns.org:3478',
+        username:'karel',
+        credential:'abc123'
+      } ]
   },
   {
     'optional': [{DtlsSrtpKeyAgreement: false}]
