@@ -54,7 +54,7 @@ var dataChannelSettings = {
       },
 };
 
-var pcSettings = [
+var OLDpcSettings = [
   {
     //iceServers: [{url:'stun:stun.l.google.com:19302'}]
     iceServers: [
@@ -69,6 +69,21 @@ var pcSettings = [
     'optional': [{DtlsSrtpKeyAgreement: false}]
   }
 ];
+
+var pcSettings = { 
+  iceServers: [
+    {
+      urls : 'turn:ocn.cloudns.org:3478',
+      username:'karel',
+      credential:'abc123'
+      //urls: "stun:stun.services.mozilla.com",
+      //username: "louis@mozilla.com", 
+      //credential: "webrtcdemo"
+    },{
+      urls: 'stun:ocn.cloudns.org:3478'
+    }
+  ]
+};
 
 var pendingDataChannels = {};
 var dataChannels = {}
@@ -126,6 +141,7 @@ function mqtt_getOffer(pastedOffer) {
   answer = null;
 
   pc = new webrtc.RTCPeerConnection(pcSettings);
+  
   pc.onsignalingstatechange = onsignalingstatechange;
   pc.oniceconnectionstatechange = oniceconnectionstatechange;
   pc.onicegatheringstatechange = onicegatheringstatechange;
