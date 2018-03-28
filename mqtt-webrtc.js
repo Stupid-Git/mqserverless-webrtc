@@ -79,9 +79,9 @@ var pcSettings = {
       //urls: "stun:stun.services.mozilla.com",
       //username: "louis@mozilla.com", 
       //credential: "webrtcdemo"
-    },{
-      urls: 'stun:ocn.cloudns.org:3478'
-    }
+    }//,{
+    //  urls: 'stun:ocn.cloudns.org:3478'
+    //}
   ]
 };
 
