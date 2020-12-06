@@ -5,12 +5,32 @@
     https://webrtc-demos.appspot.com/html/pc1.html
 */
 
-var cfg = {'iceServers': [{'url': 'stun:23.21.150.121'}]},
-  con = { 'optional': [{'DtlsSrtpKeyAgreement': true}] }
+//var cfg = {'iceServers': [{'url': 'stun:23.21.150.121'}]},
+//  con = { 'optional': [{'DtlsSrtpKeyAgreement': true}] }
+
+//var cfg = {'iceServers': [{'url': 'stun:23.21.150.121'}]};
+//var con = { 'optional': [{'DtlsSrtpKeyAgreement': true}] };
+
+var pcSettings = { 
+  iceServers: [
+    {
+      urls : 'turn:ocn.cloudns.org:3478',
+      username:'karel',
+      credential:'abc123'
+      //urls: "stun:stun.services.mozilla.com",
+      //username: "louis@mozilla.com", 
+      //credential: "webrtcdemo"
+    }//,{
+    //  urls: 'stun:ocn.cloudns.org:3478'
+    //}
+  ]
+};
+  
 
 /* THIS IS ALICE, THE CALLER/SENDER */
 
-var pc1 = new RTCPeerConnection(cfg, con),
+//var pc1 = new RTCPeerConnection(cfg, con),
+var pc1 = new RTCPeerConnection(pcSettings),
   dc1 = null, tn1 = null
 
 // Since the same JS file contains code for both sides of the connection,
@@ -152,7 +172,7 @@ function setupDC1 () {
   } catch (e) { console.warn('No data channel (pc1)', e); }
 }
 
-function createLocalOffer () {
+function createLocalOfferORIG () {
   console.log('video1')
   navigator.getUserMedia = navigator.getUserMedia ||
                            navigator.webkitGetUserMedia ||
@@ -175,6 +195,23 @@ function createLocalOffer () {
   }, function (error) {
     console.log('Error adding stream to pc1: ' + error)
   })
+}
+
+function createLocalOffer () {
+  console.log('video1')
+  navigator.getUserMedia = navigator.getUserMedia ||
+                           navigator.webkitGetUserMedia ||
+                           navigator.mozGetUserMedia ||
+                           navigator.msGetUserMedia
+
+  setupDC1()
+  pc1.createOffer( function (desc) {
+      pc1.setLocalDescription(desc, function () {}, function () {})
+      console.log('created local offer', desc)
+    },
+    function () { console.warn("Couldn't create offer") },
+    sdpConstraints
+  )
 }
 
 pc1.onicecandidate = function (e) {
@@ -235,9 +272,10 @@ function handleCandidateFromPC2 (iceCandidate) {
 
 /* THIS IS BOB, THE ANSWERER/RECEIVER */
 
-var pc2 = new RTCPeerConnection(cfg, con),
+//var pc2 = new RTCPeerConnection(cfg, con),
+var pc2 = new RTCPeerConnection(pcSettings),
   dc2 = null
-
+  
 var pc2icedone = false
 
 pc2.ondatachannel = function (e) {

@@ -6,9 +6,9 @@
   "license": "MIT",
   "main": "serverless-webrtc.js",
   "dependencies": {
-    "ansi": "0.3.0",
+    "ansi": "^0.3.1",
     "mqtt": "^2.15.0",
-    "wrtc": "0.0.67"
+    "wrtc": "^0.4.6"
   },
   "repository": {
     "type": "git",
